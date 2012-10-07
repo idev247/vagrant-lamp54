@@ -3,7 +3,7 @@
 
 Vagrant::Config.run do |config|
 
-  config.vm.box = "precise64"
+  config.vm.box = "precise64-base-1"
   # config.vm.box_url = "http://domain.com/path/to/above.box"
   # config.vm.boot_mode = :gui
 
