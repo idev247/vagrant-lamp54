@@ -7,7 +7,7 @@ Vagrant::Config.run do |config|
   # config.vm.box_url = "http://domain.com/path/to/above.box"
   # config.vm.boot_mode = :gui
 
-  config.vm.network :hostonly, "192.168.69.10"
+  config.vm.network :hostonly, "192.168.33.101"
   # config.vm.network :bridged
 
   # config.vm.forward_port 80, 8080
