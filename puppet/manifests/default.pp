@@ -23,8 +23,17 @@ class base-server {
 
 }
 
+class development {
+
+  $devPackages = [ "curl" ]
+  package { $devPackages:
+    ensure => "installed",
+    require => Exec['apt-get update'],
+  }
+}
+
 include system-update
 
 include base-server
 
-
+include development
