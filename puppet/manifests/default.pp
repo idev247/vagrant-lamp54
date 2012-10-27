@@ -32,12 +32,29 @@ class development {
   }
 }
 
+class php54 {
+
+  exec { 'add py software properties':
+    command => 'apt-get install python-software-properties -y',
+    require => Class[ 'system-update' ],
+  }
+  exec { 'add php54':
+    command => 'add-apt-repository ppa:ondrej/php5',
+    require => Exec[ 'add py software properties' ]
+  }
+  exec { 'update':
+    command => 'apt-get update',
+    require => Exec[ 'add php54' ]
+  }
+
+}
+
 class lamp {
 
   $devPackages = [ "lamp-server^", "php-pear", "php5-xdebug", "php-cache-lite", "php5-memcache", "php5-curl", "php-apc", "phpmyadmin" ]
   package { $devPackages:
     ensure => "installed",
-    require => Class[ 'development' ],
+    require => [ Class[ 'development' ],Class[ 'php54' ] ],
     before => Exec[ 'apache enable module' ]
   }
 
@@ -100,6 +117,8 @@ include system-update
 include base-server
 
 include development
+
+include php54
 
 include lamp
 
