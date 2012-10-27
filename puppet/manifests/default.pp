@@ -28,46 +28,67 @@ class development {
   $devPackages = [ "curl" , "memcached" , "ssmtp" ]
   package { $devPackages:
     ensure => "installed",
-    require => Exec['apt-get update'],
+    require => [ Class[ 'system-update' ],Class[ 'base-server' ] ],
   }
 }
-
 
 class lamp {
 
   $devPackages = [ "lamp-server^", "php-pear", "php5-xdebug", "php-cache-lite", "php5-memcache", "php5-curl", "php-apc", "phpmyadmin" ]
   package { $devPackages:
     ensure => "installed",
-    require => Exec['apt-get update'],
+    require => Class[ 'development' ],
+    before => Exec[ 'apache enable module' ]
   }
 
-  exec { 'PEAR':
-    command => 'pear upgrade PEAR',
-  }
-  exec { 'PEAR autodiscover':
-    command => 'pear config-set auto_discover 1',
-  }
-  exec { 'PEAR php unit':
-    command => 'pear install pear.phpunit.de/PHPUnit',
-  }
-  exec { 'PEAR dbunit':
-    command => 'pear install phpunit/DbUnit',
-  }
-  exec { 'PEAR PHPUnit selenium':
-    command => 'pear install phpunit/PHPUnit_Selenium',
-  }
-  exec { 'PEAR discover PHPMD':
-    command => 'pear channel-discover pear.phpmd.org',
-  }
-  exec { 'PEAR PHPMD':
-    command => 'pear install phpmd/PHP_PMD',
+  file { '/var/www/vagrant':
+    ensure => 'link',
+    owner  => "vagrant",
+    group  => "vagrant",
+    mode   => 777,
+    target => '/vagrant',
+    require => Package[ 'lamp-server^' ],
   }
 
-  exec { 'enable apache modules':
+  exec { 'apache enable module':
     command => 'a2enmod headers deflate rewrite',
   }
   exec { 'Apache restart':
     command => '/etc/init.d/apache2 restart',
+    require => Exec[ 'apache enable module' ]
+  }
+}
+
+class phppackages{
+
+  exec { 'PEAR upgrade':
+    command => 'pear upgrade PEAR',
+    require => Class[ 'lamp' ]
+  }
+  exec { 'PEAR autodiscover':
+    command => 'pear config-set auto_discover 1',
+    require => Exec[ 'PEAR upgrade' ]
+  }
+  exec { 'PEAR discover PHPMD':
+    command => 'pear channel-discover pear.phpmd.org',
+    require => Exec[ 'PEAR autodiscover' ]
+  }
+
+  exec { 'PEAR install phpunit':
+    command => 'pear install pear.phpunit.de/PHPUnit',
+    require => Exec[ 'PEAR autodiscover' ]
+  }
+  exec { 'PEAR dbunit':
+    command => 'pear install phpunit/DbUnit',
+    require => Exec[ 'PEAR install phpunit' ]
+  }
+  exec { 'PEAR PHPUnit selenium':
+    command => 'pear install phpunit/PHPUnit_Selenium',
+    require => Exec[ 'PEAR install phpunit' ]
+  }
+  exec { 'PEAR PHPMD':
+    command => 'pear install phpmd/PHP_PMD',
+    require => Exec[ 'PEAR discover PHPMD' ]
   }
 }
 
@@ -81,5 +102,7 @@ include base-server
 include development
 
 include lamp
+
+include phppackages
 
 
