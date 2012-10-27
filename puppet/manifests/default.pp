@@ -25,7 +25,7 @@ class base-server {
 
 class development {
 
-  $devPackages = [ "curl" ]
+  $devPackages = [ "curl" , "memcached" , "ssmtp" ]
   package { $devPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
