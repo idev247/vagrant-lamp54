@@ -7,9 +7,9 @@ Base box based on precise64 with puppet enabled. Parts of config have been taken
 
 Information
 ---
-Version:  0.1 
+Version:  0.1.1 
 OS:       Ubuntu 12.04 server 64-bit (Precise Pangolin)
-Date:     2012-10-07
+Date:     2012-10-27
 
 
 Puppet
