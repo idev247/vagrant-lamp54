@@ -1,6 +1,10 @@
 Changelog for vagrant-lamp box
 ============
 
+Version 0.1.1.54	[2012-10-28]
+---
+- Added PHP 5.4 references
+
 Version 0.1.1	[2012-10-27]
 ---
 - Added CHANGELOG-LAMP.md
