@@ -1,9 +1,9 @@
-vagrant-lamp
+vagrant-lamp54
 ============
 
-LAMP vagrant repo
+LAMP vagrant repo (using PHP 5.4)
 ---
-LAMP box based on https://github.com/msvrtan/vagrant-base settings.
+This is PHP 5.4 fork of LAMP box based on https://github.com/msvrtan/vagrant-lamp settings.
 
 Information
 ---
