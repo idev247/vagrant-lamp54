@@ -1,2 +1,5 @@
+#ignore vagrant cache file
 .vagrant
-.idea/
+
+#PHPStorm
+.idea
