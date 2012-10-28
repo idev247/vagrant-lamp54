@@ -3,3 +3,13 @@
 
 #PHPStorm
 .idea
+
+#backup files from unix editors
+*~
+
+#merge files
+*.orig
+
+
+# ignoring all python compiled code
+*.pyc
